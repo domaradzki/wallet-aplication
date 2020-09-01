@@ -23,7 +23,7 @@ const schema = yup.object({
 
 export default function RegistrationScreen({ navigation }) {
   const onFooterLinkPress = () => {
-    navigation.navigate('LoginScreen');
+    navigation.navigate('Login');
   };
 
   const onRegisterPress = (val) => {

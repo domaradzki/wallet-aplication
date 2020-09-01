@@ -15,7 +15,7 @@ import Logo from '../components/Logo';
 
 export default function LoginScreen({ navigation }) {
   const onFooterLinkPress = () => {
-    navigation.navigate('RegistrationScreen');
+    navigation.navigate('Registration');
   };
 
   const onLoginPress = (val) => {
