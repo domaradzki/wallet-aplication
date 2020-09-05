@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,8 +8,11 @@ import {
   Keyboard,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 import { Formik } from 'formik';
 import * as yup from 'yup';
+
+import { AuthContext } from '../context/authContext';
 
 import SubmitButton from '../components/SubmitButton';
 import Logo from '../components/Logo';
@@ -25,9 +28,14 @@ export default function RegistrationScreen({ navigation }) {
   const onFooterLinkPress = () => {
     navigation.navigate('Login');
   };
+  const { signUp } = useContext(AuthContext);
 
   const onRegisterPress = (val) => {
-    console.log(val);
+    const { email, fullName, password, confirmPassword } = val;
+    if (password !== confirmPassword) {
+      alert("Passwords don't match.");
+    }
+    signUp(email, fullName, password, confirmPassword);
   };
 
   return (
@@ -146,11 +154,11 @@ const styles = StyleSheet.create({
     margin: 30,
   },
   input: {
-    height: 48,
+    height: 44,
     overflow: 'hidden',
     backgroundColor: '#FFF',
-    marginTop: 4,
-    marginBottom: 4,
+    marginTop: 2,
+    marginBottom: 2,
     marginLeft: 30,
     marginRight: 30,
     paddingLeft: 16,

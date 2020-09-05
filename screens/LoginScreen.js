@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,17 +9,26 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Formik } from 'formik';
+import * as yup from 'yup';
+
+import { AuthContext } from '../context/authContext';
 
 import SubmitButton from '../components/SubmitButton';
 import Logo from '../components/Logo';
+
+const schema = yup.object({
+  email: yup.string().required(),
+  password: yup.string().required().min(6),
+});
 
 export default function LoginScreen({ navigation }) {
   const onFooterLinkPress = () => {
     navigation.navigate('Registration');
   };
-
+  const { signIn } = useContext(AuthContext);
   const onLoginPress = (val) => {
-    console.log(val);
+    const { email, password } = val;
+    signIn(email, password);
   };
 
   return (
@@ -32,6 +41,7 @@ export default function LoginScreen({ navigation }) {
           <Logo />
           <Formik
             initialValues={{ email: '', password: '' }}
+            validationSchema={schema}
             onSubmit={(values, actions) => {
               actions.resetForm();
               onLoginPress(values);
