@@ -9,7 +9,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 export default function Header({ title }) {
   const navigation = useNavigation();
   const openMenu = () => {
-    navigation.dispatch(DrawerActions.openDrawer());
+    navigation.dispatch(DrawerActions.toggleDrawer());
   };
   return (
     <View style={styles.header}>
