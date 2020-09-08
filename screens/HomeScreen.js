@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { AuthContext } from '../context/authContext';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
+  const { userToken } = useContext(AuthContext);
+
   return (
     <View style={styles.container}>
-      <Text>Welcome</Text>
+      <Text>Welcome {userToken?.fullName}</Text>
     </View>
   );
 }

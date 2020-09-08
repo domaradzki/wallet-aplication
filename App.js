@@ -6,6 +6,7 @@ import { decode, encode } from 'base-64';
 
 import RootStack from './routes/RootStack';
 import AuthLoadingScreen from './screens/AuthLoadingScreen';
+
 import { AuthContext } from './context/authContext';
 import { firebase } from './firebase/config';
 
@@ -20,10 +21,11 @@ export default function App() {
   YellowBox.ignoreWarnings(['Setting a timer']);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [userToken, setUserToken] = useState(null);
+  const [userToken, setUserToken] = useState({});
 
   const authContext = useMemo(() => {
     return {
+      userToken,
       signIn: (email, password) => {
         firebase
           .auth()
@@ -40,7 +42,6 @@ export default function App() {
                   return;
                 }
                 const user = firestoreDocument.data();
-                // navigation.navigate('App', { user: user });
                 setIsLoading(false);
                 setUserToken(user);
               })
@@ -56,7 +57,7 @@ export default function App() {
             alert(error);
           });
       },
-      signUp: (email, fullName, password, confirmPassword) => {
+      signUp: (email, fullName, password) => {
         firebase
           .auth()
           .createUserWithEmailAndPassword(email, password)
@@ -71,13 +72,10 @@ export default function App() {
             usersRef
               .doc(uid)
               .set(data)
-              .then(() =>
-                // navigation.navigate('App', { user: data })
-                {
-                  setIsLoading(false);
-                  setUserToken(data);
-                },
-              )
+              .then(() => {
+                setIsLoading(false);
+                setUserToken(data);
+              })
               .catch((error) => {
                 setIsLoading(false);
                 setUserToken(null);
@@ -106,7 +104,7 @@ export default function App() {
           });
       },
     };
-  }, []);
+  }, [userToken]);
 
   useEffect(() => {
     const usersRef = firebase.firestore().collection('users');
@@ -121,6 +119,7 @@ export default function App() {
             setUserToken(userData);
           })
           .catch((error) => {
+            alert(error);
             setIsLoading(false);
           });
       } else {

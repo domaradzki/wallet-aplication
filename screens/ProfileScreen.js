@@ -5,10 +5,10 @@ import SubmitButton from '../components/SubmitButton';
 import { AuthContext } from '../context/authContext';
 
 export default function ProfileScreen() {
-  const { signOut } = useContext(AuthContext);
+  const { signOut, userToken } = useContext(AuthContext);
   return (
     <View style={styles.container}>
-      <Text>Your Profile</Text>
+      <Text>You are logged as {userToken?.fullName}</Text>
       <SubmitButton text="Sign Out" onPress={() => signOut()} />
     </View>
   );

@@ -26,6 +26,7 @@ export default function LoginScreen({ navigation }) {
     navigation.navigate('Registration');
   };
   const { signIn } = useContext(AuthContext);
+
   const onLoginPress = (val) => {
     const { email, password } = val;
     signIn(email, password);
@@ -43,8 +44,8 @@ export default function LoginScreen({ navigation }) {
             initialValues={{ email: '', password: '' }}
             validationSchema={schema}
             onSubmit={(values, actions) => {
-              actions.resetForm();
               onLoginPress(values);
+              actions.resetForm();
             }}
           >
             {(props) => (

@@ -35,7 +35,7 @@ export default function RegistrationScreen({ navigation }) {
     if (password !== confirmPassword) {
       alert("Passwords don't match.");
     }
-    signUp(email, fullName, password, confirmPassword);
+    signUp(email, fullName, password);
   };
 
   return (

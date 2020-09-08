@@ -16,6 +16,7 @@ export default function Rootstack({ userToken }) {
           component={AppDrawer}
           options={({ navigation }) => {
             return {
+              animationEnabled: false,
               headerTitle: () => (
                 <Header title="Wallet" navigation={navigation} />
               ),
