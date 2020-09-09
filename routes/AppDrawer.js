@@ -13,10 +13,9 @@ function AppDrawer() {
         activeTintColor: '#00A444',
       }}
     >
-      <Drawer.Screen
-        name="Home"
-        component={HomeStack}
-      ></Drawer.Screen>
+      <Drawer.Screen name="Home">
+        {(props) => <HomeStack {...props} />}
+      </Drawer.Screen>
       <Drawer.Screen
         name="Profile"
         component={ProfileStack}

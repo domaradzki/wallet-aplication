@@ -14,19 +14,7 @@ export default function Rootstack({ userToken }) {
         <RootStack.Screen
           name="App"
           component={AppDrawer}
-          options={({ navigation }) => {
-            return {
-              animationEnabled: false,
-              headerTitle: () => (
-                <Header title="Wallet" navigation={navigation} />
-              ),
-              headerStyle: {
-                height: 80,
-                backgroundColor: '#00A444',
-              },
-              headerTintColor: '#FFF',
-            };
-          }}
+          options={{ headerShown: false }}
         />
       ) : (
         <RootStack.Screen

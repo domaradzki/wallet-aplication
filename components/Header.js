@@ -1,15 +1,11 @@
 import React from 'react';
-import {
-  useNavigation,
-  DrawerActions,
-} from '@react-navigation/native';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default function Header({ title }) {
-  const navigation = useNavigation();
+export default function Header({ navigation, title }) {
+  console.log('header', navigation);
   const openMenu = () => {
-    navigation.dispatch(DrawerActions.toggleDrawer());
+    navigation.toggleDrawer();
   };
   return (
     <View style={styles.header}>
