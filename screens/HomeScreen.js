@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -7,51 +7,64 @@ import Card from '../components/Card';
 import AddAccountScreen from './AddAccountScreen';
 
 import { AuthContext } from '../context/authContext';
+import { firebase } from '../firebase/config';
+import AuthLoadingScreen from './AuthLoadingScreen';
 
 export default function Home(props) {
   const { navigation } = props;
   const { userToken } = useContext(AuthContext);
+  const userID = userToken.id;
+  const userRef =
+    userID && firebase.firestore().collection('users').doc(userID);
   const [modalAddAccountOpen, setModalAddAccountOpen] = useState(
     false,
   );
-  const [accounts, setAccounts] = useState([
-    {
-      name: 'Cash',
-      type: 'cash',
-      accountNumber: '',
-      balance: 0,
-      key: '1',
-      isActive: true,
-    },
-    {
-      name: 'Bank Account',
-      type: 'main',
-      accountNumber: '',
-      balance: 0,
-      key: '2',
-      isActive: false,
-    },
-  ]);
+  const [newAccount, setNewAccount] = useState({});
+  const [accounts, setAccounts] = useState([]);
+
+  useEffect(() => {
+    if (userRef) {
+      userRef.collection('accounts').onSnapshot(
+        (querySnapshot) => {
+          const newAccounts = [];
+          querySnapshot.forEach((doc) => {
+            const newAccount = doc.data();
+            newAccount.id = doc.id;
+            newAccounts.push(newAccount);
+          });
+          setAccounts(newAccounts);
+        },
+        (error) => {
+          console.log(error);
+        },
+      );
+    }
+  }, [userID]);
+
   const addNewAccount = (account) => {
-    account.key = Math.random().toString();
-    setAccounts((prevAccounts) => {
-      return [account, ...prevAccounts];
-    });
-    setModalAddAccountOpen(false);
+    userRef
+      .collection('accounts')
+      .add(account)
+      .then((_doc) => {
+        setNewAccount(account);
+        setModalAddAccountOpen(false);
+      })
+      .catch((error) => {
+        alert(error);
+      });
   };
 
-  const activateAccount = (item) => {
-    setAccounts((prevAccounts) => {
-      return prevAccounts.map((account) =>
-        account.key !== item
-          ? account
-          : {
-              ...account,
-              isActive: !account.isActive,
-            },
-      );
-    });
+  const activateAccount = (item, isActive) => {
+    userRef
+      .collection('accounts')
+      .doc(item)
+      .update({ isActive: !isActive })
+      .catch((error) => alert(error));
   };
+
+  if (!userToken) {
+    return <AuthLoadingScreen />;
+  }
 
   return (
     <View style={styles.container}>
@@ -87,9 +100,11 @@ export default function Home(props) {
         <View>
           <FlatList
             data={accounts}
+            keyExtractor={(item, index) => item.id}
             numColumns={3}
             renderItem={({ item }) => (
               <AccountContainer
+                key={item.id}
                 item={item}
                 navigation={navigation}
                 activateAccount={activateAccount}

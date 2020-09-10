@@ -34,7 +34,7 @@ export default function AccountForm({ addNew }) {
         validationSchema={schema}
         onSubmit={(values, actions) => {
           actions.resetForm();
-          addNew(values);
+          addNew({ ...values, isActive: false });
         }}
       >
         {(props) => (

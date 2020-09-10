@@ -9,7 +9,7 @@ export default function AccountContainer({
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => activateAccount(item.key)}
+      onPress={() => activateAccount(item.id, item.isActive)}
     >
       <Text
         style={
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     margin: 4,
     borderColor: '#808080',
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 6,
     color: '#00A444',
   },

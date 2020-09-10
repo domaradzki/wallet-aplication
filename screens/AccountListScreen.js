@@ -15,8 +15,13 @@ export default function AccountListScreen({ navigation, route }) {
         <View>
           <FlatList
             data={data}
+            keyExtractor={(item, index) => item.id}
             renderItem={({ item }) => (
-              <AccountListItem item={item} navigation={navigation} />
+              <AccountListItem
+                key={item.id}
+                item={item}
+                navigation={navigation}
+              />
             )}
           />
         </View>

@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default function AccountListItemScreen({ navigation, item }) {
+export default function AccountListItem({ navigation, item }) {
   return (
     <TouchableOpacity
       onPress={() =>
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     margin: 4,
     borderColor: '#808080',
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 6,
   },
   icons: {
