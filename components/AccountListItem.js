@@ -11,6 +11,7 @@ export default function AccountListItem({
   navigation,
   item,
   deleteAccount,
+  edit,
 }) {
   return (
     <TouchableOpacity
@@ -25,6 +26,7 @@ export default function AccountListItem({
             name="edit"
             size={24}
             style={styles.modalToggle}
+            onPress={edit}
           />
 
           <MaterialIcons
