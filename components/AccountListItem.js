@@ -7,7 +7,11 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default function AccountListItem({ navigation, item }) {
+export default function AccountListItem({
+  navigation,
+  item,
+  deleteAccount,
+}) {
   return (
     <TouchableOpacity
       onPress={() =>
@@ -27,6 +31,7 @@ export default function AccountListItem({ navigation, item }) {
             name="delete"
             size={24}
             style={styles.modalToggle}
+            onPress={deleteAccount}
           />
         </View>
       </View>

@@ -9,6 +9,8 @@ import AddAccountScreen from './AddAccountScreen';
 import { AuthContext } from '../context/authContext';
 import { firebase } from '../firebase/config';
 import AuthLoadingScreen from './AuthLoadingScreen';
+import activeAccount from '../services/activeAccount';
+import addAccount from '../services/addAccount';
 
 export default function Home(props) {
   const { navigation } = props;
@@ -19,7 +21,6 @@ export default function Home(props) {
   const [modalAddAccountOpen, setModalAddAccountOpen] = useState(
     false,
   );
-  const [newAccount, setNewAccount] = useState({});
   const [accounts, setAccounts] = useState([]);
 
   useEffect(() => {
@@ -42,24 +43,11 @@ export default function Home(props) {
   }, [userID]);
 
   const addNewAccount = (account) => {
-    userRef
-      .collection('accounts')
-      .add(account)
-      .then((_doc) => {
-        setNewAccount(account);
-        setModalAddAccountOpen(false);
-      })
-      .catch((error) => {
-        alert(error);
-      });
+    addAccount(account, userID, setModalAddAccountOpen);
   };
 
   const activateAccount = (item, isActive) => {
-    userRef
-      .collection('accounts')
-      .doc(item)
-      .update({ isActive: !isActive })
-      .catch((error) => alert(error));
+    activeAccount(item, userID, isActive);
   };
 
   if (!userToken) {
@@ -92,6 +80,7 @@ export default function Home(props) {
               onPress={() =>
                 navigation.navigate('AccountListScreen', {
                   data: accounts,
+                  user: userID,
                 })
               }
             />

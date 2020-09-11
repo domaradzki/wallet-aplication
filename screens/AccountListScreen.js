@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, FlatList, View, Text } from 'react-native';
 
 import Card from '../components/Card';
 import AccountListItem from '../components/AccountListItem';
+import deleteAccount from '../services/deleteAccount';
 
 export default function AccountListScreen({ navigation, route }) {
   const data = route.params.data;
+  const user = route.params.user;
+  const [accountsData, setAccountsData] = useState(data);
+
+  const handleDelete = (item, userID) => {
+    deleteAccount(item, userID);
+    setAccountsData((prevState) => {
+      return prevState.filter((account) => account.id !== item);
+    });
+  };
   return (
     <Card>
       <View>
@@ -14,13 +24,15 @@ export default function AccountListScreen({ navigation, route }) {
         </View>
         <View>
           <FlatList
-            data={data}
-            keyExtractor={(item, index) => item.id}
+            data={accountsData}
+            extraData={accountsData}
+            keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <AccountListItem
                 key={item.id}
                 item={item}
                 navigation={navigation}
+                deleteAccount={() => handleDelete(item.id, user)}
               />
             )}
           />
