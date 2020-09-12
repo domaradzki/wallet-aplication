@@ -11,6 +11,7 @@ import { firebase } from '../firebase/config';
 import AuthLoadingScreen from './AuthLoadingScreen';
 import activeAccount from '../services/activeAccount';
 import addAccount from '../services/addAccount';
+import AddButton from '../components/AddButton';
 
 export default function Home(props) {
   const { navigation } = props;
@@ -22,6 +23,18 @@ export default function Home(props) {
     false,
   );
   const [accounts, setAccounts] = useState([]);
+
+  const balance = accounts
+    .map((item) => parseFloat(item.balance))
+    .reduce((prev, next) => {
+      return prev + next;
+    }, 0);
+
+  const activeBalance = accounts
+    .map((item) => (item.isActive ? parseFloat(item.balance) : 0))
+    .reduce((prev, next) => {
+      return prev + next;
+    }, 0);
 
   useEffect(() => {
     if (userRef) {
@@ -101,7 +114,18 @@ export default function Home(props) {
             )}
           />
         </View>
+        <Text
+          style={{ ...styles.title, ...styles.right }}
+        >{`Balace: ${balance} PLN`}</Text>
       </Card>
+      <Card>
+        <View>
+          <Text
+            style={{ ...styles.title }}
+          >{`Active Balace: ${activeBalance} PLN`}</Text>
+        </View>
+      </Card>
+      <AddButton />
     </View>
   );
 }
@@ -128,5 +152,11 @@ const styles = StyleSheet.create({
     color: '#00A444',
     textAlign: 'right',
     marginHorizontal: 2,
+  },
+  right: {
+    color: '#00A444',
+    textAlign: 'right',
+    marginHorizontal: 2,
+    marginVertical: 10,
   },
 });
