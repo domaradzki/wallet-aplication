@@ -12,6 +12,7 @@ import AuthLoadingScreen from './AuthLoadingScreen';
 import activeAccount from '../services/activeAccount';
 import addAccount from '../services/addAccount';
 import AddButton from '../components/AddButton';
+import AddOperation from './AddOperation';
 
 export default function Home(props) {
   const { navigation } = props;
@@ -22,6 +23,7 @@ export default function Home(props) {
   const [modalAddAccountOpen, setModalAddAccountOpen] = useState(
     false,
   );
+  const [modalOperationOpen, setModalOperationOpen] = useState(false);
   const [accounts, setAccounts] = useState([]);
 
   const balance = accounts
@@ -63,6 +65,10 @@ export default function Home(props) {
     activeAccount(item, userID, isActive);
   };
 
+  const addOperation = () => {
+    console.log('operation');
+  };
+
   if (!userToken) {
     return <AuthLoadingScreen />;
   }
@@ -73,6 +79,11 @@ export default function Home(props) {
         open={modalAddAccountOpen}
         close={() => setModalAddAccountOpen(false)}
         addNew={addNewAccount}
+      />
+      <AddOperation
+        open={modalOperationOpen}
+        close={() => setModalOperationOpen(false)}
+        addOperation={addOperation}
       />
 
       <Card>
@@ -125,7 +136,7 @@ export default function Home(props) {
           >{`Active Balace: ${activeBalance} PLN`}</Text>
         </View>
       </Card>
-      <AddButton />
+      <AddButton onPress={() => setModalOperationOpen(true)} />
     </View>
   );
 }
