@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,9 +10,10 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 
 import Card from '../components/Card';
-import AccountForm from '../components/AccountForm';
+import OperationType from '../components/OperationType';
 
 export default function AddOperation({ open, close, addOperation }) {
+  const [activeType, setActiveType] = useState('Expense');
   return (
     <Modal visible={open} animationType="slide">
       <Card>
@@ -29,7 +30,12 @@ export default function AddOperation({ open, close, addOperation }) {
                 />
               </View>
             </View>
-            <Text>finanse</Text>
+            <View>
+              <OperationType
+                activeType={activeType}
+                setActiveType={(item) => setActiveType(item)}
+              />
+            </View>
           </View>
         </TouchableWithoutFeedback>
       </Card>
