@@ -11,6 +11,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import Card from '../components/Card';
 import OperationType from '../components/OperationType';
+import AmountInput from '../components/AmountInput';
 
 export default function AddOperation({ open, close, addOperation }) {
   const [activeType, setActiveType] = useState('Expense');
@@ -35,6 +36,7 @@ export default function AddOperation({ open, close, addOperation }) {
                 activeType={activeType}
                 setActiveType={(item) => setActiveType(item)}
               />
+              <AmountInput />
             </View>
           </View>
         </TouchableWithoutFeedback>
