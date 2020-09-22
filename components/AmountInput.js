@@ -6,24 +6,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-const mainInputs = [
-  '7',
-  '8',
-  '9',
-  '4',
-  '5',
-  '6',
-  '1',
-  '2',
-  '3',
-  ',',
-  '0',
-  '<-',
-];
+const mainInputs = [7, 8, 9, 4, 5, 6, 1, 2, 3, '.', 0, 'c'];
 
 const signInputs = ['÷', '*', '-', '+', '='];
 
-export default function AmountInput({}) {
+export default function AmountInput({ handleOperation }) {
   return (
     <View style={styles.container}>
       <View style={styles.numbers}>
@@ -31,23 +18,10 @@ export default function AmountInput({}) {
           <TouchableOpacity
             key={item}
             id={item}
-            style={
-              // activeType === item
-              //   ? { ...styles.button, ...styles.active }
-              //   :
-              styles.button
-            }
+            style={styles.button}
+            onPress={() => handleOperation(item)}
           >
-            <Text
-              style={
-                //   activeType === item
-                //     ? { ...styles.buttonText, ...styles.activeText }
-                //     :
-                styles.buttonText
-              }
-            >
-              {item}
-            </Text>
+            <Text style={styles.buttonText}>{item}</Text>
           </TouchableOpacity>
         ))}
         <TouchableOpacity id="enter" style={styles.button}>
@@ -59,23 +33,10 @@ export default function AmountInput({}) {
           <TouchableOpacity
             key={item}
             id={item}
-            style={
-              // activeType === item
-              //   ? { ...styles.button, ...styles.active }
-              //   :
-              styles.button
-            }
+            style={styles.button}
+            onPress={() => handleOperation(item)}
           >
-            <Text
-              style={
-                //   activeType === item
-                //     ? { ...styles.buttonText, ...styles.activeText }
-                //     :
-                styles.buttonText
-              }
-            >
-              {item}
-            </Text>
+            <Text style={styles.buttonText}>{item}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -88,6 +49,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignContent: 'stretch',
+    alignItems: 'center',
+    marginHorizontal: 10,
   },
   numbers: {
     flexDirection: 'row',
@@ -98,8 +61,7 @@ const styles = StyleSheet.create({
   },
   signs: {
     flexDirection: 'column',
-    flex: 1,
-    alignItems: 'stretch',
+    alignItems: 'center',
     flexWrap: 'wrap',
     marginTop: 20,
   },
@@ -111,7 +73,6 @@ const styles = StyleSheet.create({
     borderColor: '#00A444',
     paddingHorizontal: 25,
     paddingVertical: 20,
-
     marginLeft: 2,
     marginRight: 2,
     marginTop: 5,
