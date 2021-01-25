@@ -1,9 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-export default function AmountDisplay({ amount }) {
+export default function AmountDisplay({ amount, sign }) {
   return (
     <View style={styles.container}>
+      <View style={styles.display}>
+        <Text style={styles.displaySign}>{sign}</Text>
+      </View>
       <View style={styles.display}>
         <Text style={styles.displayText}>{amount}</Text>
       </View>
@@ -14,7 +17,7 @@ export default function AmountDisplay({ amount }) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
     minHeight: '20%',
     backgroundColor: '#00A444',
@@ -23,12 +26,19 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   display: {
-    marginVertical: 30,
+    marginVertical: 20,
     marginHorizontal: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   displayText: {
     color: '#FFF',
     textAlign: 'right',
     fontSize: 32,
+  },
+  displaySign: {
+    color: '#FFF',
+    textAlign: 'left',
+    fontSize: 40,
   },
 });

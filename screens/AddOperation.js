@@ -13,12 +13,22 @@ import Card from '../components/Card';
 import OperationType from '../components/OperationType';
 import AmountInput from '../components/AmountInput';
 import AmountDisplay from '../components/AmountDisplay';
+import AccountPicker from '../components/AccountPicker';
 
-export default function AddOperation({ open, close, addOperation }) {
+export default function AddOperation({ open, close, accounts }) {
   const [activeType, setActiveType] = useState('Expense');
   const [prevValue, setPrevValue] = useState(null);
   const [nextValue, setNextValue] = useState('0');
   const [op, setOp] = useState(null);
+  const defaultAccount = accounts.find(
+    (account) => account.isActive === true,
+  );
+
+  const defaultAccountName = defaultAccount?.name || 'Gotówka';
+  console.log(defaultAccount?.name);
+  const [selectedValue, setSelectedValue] = useState(
+    defaultAccountName,
+  );
 
   const CalculatorOperations = {
     '÷': (firstValue, secondValue) => firstValue / secondValue,
@@ -76,6 +86,7 @@ export default function AddOperation({ open, close, addOperation }) {
       insertDot();
     }
   };
+  console.log('sececlted', selectedValue);
 
   return (
     <Modal visible={open} animationType="slide">
@@ -98,7 +109,22 @@ export default function AddOperation({ open, close, addOperation }) {
                 activeType={activeType}
                 setActiveType={(item) => setActiveType(item)}
               />
-              <AmountDisplay amount={nextValue} />
+              <AmountDisplay
+                amount={nextValue}
+                sign={
+                  activeType === 'Expense'
+                    ? '-'
+                    : activeType === 'Income'
+                    ? '+'
+                    : '↔'
+                }
+              />
+              <AccountPicker
+                accounts={accounts}
+                selectedValue={selectedValue}
+                defaultAccountName={defaultAccountName}
+                setSelectedValue={(e) => setSelectedValue(e)}
+              />
               <AmountInput
                 handleOperation={(e) => handleOperation(e)}
               />

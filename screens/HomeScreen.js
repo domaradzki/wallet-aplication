@@ -84,6 +84,7 @@ export default function Home(props) {
         open={modalOperationOpen}
         close={() => setModalOperationOpen(false)}
         addOperation={addOperation}
+        accounts={accounts}
       />
 
       <Card>
